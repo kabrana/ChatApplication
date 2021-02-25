@@ -1,0 +1,13 @@
+Implementing all the group functionality:
+ - database representation,
+ - frontend (GUI)
+Adding superuser(moderator);
+Persistent messages;
+
+frontend:
+  - create user/groups
+  - display groups someone is in
+  - login page simple for now
+
+select groups, create groups, button that creates a group,
+private messages - frontend private messages - frontend (implement group of two moderators)

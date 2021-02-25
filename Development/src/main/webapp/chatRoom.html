@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="chatStyle.css"/>
+</head>
+<body onload="fillGroupList();connect(); userMenu(); filter();">
+<div class="header" style="z-index: 25">
+    <div id="mainHeader" class="team-menu">
+        <h2>WorkSpace Demo</h2>
+    </div>
+    <div id="currChannel" class="channel-menu"><span class="channel-menu_name"><span
+            class="channel-menu_prefix">#</span></span></div>
+</div>
+<div class="main" style="z-index: 15;">
+    <div class="listings" style="background-color: #292626">
+        <div class="listings_channels">
+            <h2 class="listings_header">Channels</h2>
+            <span class="plusPublicGroup" id="add_public" onclick="openGroupCreation()">+</span>
+            <ul class="channel_list" id="channelList">
+            </ul>
+        </div>
+        <div class="listings_direct-messages" id="directMessage">
+            <h2 class="listings_header">Direct Messages</h2>
+            <span onclick="openDirectCreation()" class="plusPrivateGroup" id="add_direct">+</span>
+            <ul class="channel_list" id="channelListDirect">
+            </ul>
+        </div>
+    </div>
+    <div class="message-history" id="message_history" style="z-index: 12">
+    </div>
+</div>
+<div class="footer" id="user">
+    <div id="userMenu" class="user-menu"></div>
+    <div class="input-box" id="message_input_box" onkeypress="sendMsg()">
+        <label for="message_value"></label>
+        <input class="input-box_text" type="text" placeholder="Message" id="message_value"/>
+    </div>
+</div>
+<div id="groupCreation" class="groupCreationClass">
+    <div class="groupCreation-content">
+        <div class="groupCreation-header">
+            <span class="close" onclick="closeGroupCreation()">&times;</span>
+            <h2 style="text-align: center">Create Group</h2>
+        </div>
+        <form>
+            <label for="createGroupName"></label>
+            <input class="createSearchBar" style="text-align: center" width="100%" type="text" id="createGroupName"
+                   name="createGroupName" placeholder="Group Name">
+            <label for="searchBarCreateGrp"></label><label for="searchBarCreateGrp"></label>
+            <input class="createSearchBar" type="text" placeholder="Add User" id="searchBarCreateGrp"
+                   onkeypress="submitGroupCreation()"/>
+        </form>
+        <button id="createGroupBtn" style="width: 100%" onclick="groupMessageCreation()">Create</button>
+        <div class="groupCreation-footer" id="createGroupNameList">
+        </div>
+    </div>
+</div>
+<div id="directCreation" class="groupCreationClass">
+    <div class="groupCreation-content">
+        <div class="groupCreation-header">
+            <span class="close" onclick="closeDirectCreation()">&times;</span>
+            <h2 style="text-align: center">Create Direct Message</h2>
+        </div>
+        <form>
+            <label for="createDirectName"></label>
+            <input class="createSearchBar" style="text-align: center" width="100%" type="text" id="createDirectName"
+                   name="createDirectName" placeholder="Direct Message">
+            <label for="searchBarCreateDirect"></label><label for="searchBarCreateDirect"></label>
+            <input class="createSearchBar" type="text" placeholder="Add User" id="searchBarCreateDirect"
+                   onkeypress="submitDirectCreation()"/>
+        </form>
+        <button id="directGroupBtn" style="width: 100%" onclick="directMessageCreation()">Create</button>
+        <div class="groupCreation-footer" id="createDirectNameList">
+        </div>
+    </div>
+</div>
+<div id="groupUsersCreation" class="groupCreationClass">
+    <div class="groupCreation-content">
+        <div class="groupCreation-header">
+            <span class="close" onclick="closeGroupUsers()">&times;</span>
+            <h2 style="text-align: center">Group Options</h2>
+        </div>
+        <form>
+            <label for="searchBarCreateGroupUsers"></label><label for="searchBarCreateGroupUsers"></label>
+            <input class="createSearchBar" type="text" placeholder="Add User" id="searchBarCreateGroupUsers"
+                   onkeypress="addGroupMembers()"/>
+        </form>
+        <button id="GroupUsersBtn" style="width: 100%" onclick="">Create</button>
+        <div class="groupCreation-footer" id="createGroupUsersList">
+        </div>
+    </div>
+</div>
+<div id="changePassCreation" class="changePassClass">
+    <div class="changePassClass-content">
+        <div class="changePassClass-header">
+            <span class="close" onclick="closeChangePassword()">&times;</span>
+            <h2 style="text-align: center">Change Password</h2>
+        </div>
+        <form>
+            <label></label>
+            <label>
+                <input type="password" class="createSearchBar" style="text-align: center" width="100%"
+                       placeholder="Enter Old Password" required id="oldPass">
+            </label>
+            <label></label>
+            <label>
+                <input class="createSearchBar" style="text-align: center" width="100%" type="password"
+                       placeholder="Enter Desired Password" required id="newPass">
+            </label>
+        </form>
+        <button onclick="confirmChangePass()" id="confirmChangePass" style="width: 100%">Confirm</button>
+    </div>
+</div>
+<div id="settings-pane" class="settings">
+    <div class="settings-content">
+        <div class="settings-header">
+            <span class="close" onclick="closeSettings()">&times;</span>
+            <h2 style="text-align: center">Settings</h2>
+        </div>
+        <div class="settingsDropdown" id="matureFilter">
+            <button id="filterBtn" onclick="showDropdownChoices('filterContent')" class="settingsDropdownBtn">Mature
+                Filter: Off
+            </button>
+            <div id="filterContent" class="settingsDropdown-content">
+                <a onclick="filterOption('On')" href="#">On</a>
+                <a onclick="filterOption('Off')" href="#">Off</a>
+            </div>
+        </div>
+        <div class="settingsDropdown" id="translation">
+            <button id="translationBtn" onclick="showDropdownChoices('translationContent')" class="settingsDropdownBtn">Translation: None</button>
+            <div id="translationContent" class="settingsDropdown-content">
+                <a onclick="setNoTranslation()" href="#">Translation</a>
+                <a onclick="setLanguage('Czech')" href="#">Czech</a>
+                <a onclick="setLanguage('Danish')" href="#">Danish</a>
+                <a onclick="setLanguage('Dutch')" href="#">Dutch</a>
+                <a onclick="setLanguage('English')" href="#">English</a>
+                <a onclick="setLanguage('Finnish')" href="#">Finnish</a>
+                <a onclick="setLanguage('French')" href="#">French</a>
+                <a onclick="setLanguage('German')" href="#">German</a>
+                <a onclick="setLanguage('Hindi')" href="#">Hindi</a>
+                <a onclick="setLanguage('Italian')" href="#">Italian</a>
+                <a onclick="setLanguage('Polish')" href="#">Polish</a>
+                <a onclick="setLanguage('Spanish')" href="#">Spanish</a>
+                <a onclick="setLanguage('Tagalog')" href="#">Tagalog</a>
+            </div>
+        </div>
+        <div class="settingsDropdown" onclick="openChangePassword()" id="changePassword">
+            <button id="changePwd" class="settingsDropdownBtn">Change Password</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('click', outsideClick);
+
+    // Close If Outside Click
+    function outsideClick(e) {
+        if (e.target === document.querySelector('#groupCreation')) {
+            document.querySelector('#groupCreation').style.display = 'none';
+        }
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.settingsDropdownBtn')) {
+            var dropdowns = document.getElementsByClassName("settingsDropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    };
+
+    window.addEventListener('click', outsideClickDirect);
+
+    // Close If Outside Click
+    function outsideClickDirect(e) {
+        if (e.target === document.querySelector('#directCreation')) {
+            // document.querySelector('#directCreation').style.display = 'none';
+        }
+    }
+</script>
+<script src="websocket.js"></script>
+</body>
+</html>

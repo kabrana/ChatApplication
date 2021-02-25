@@ -1,0 +1,19 @@
+Sprint 4 Goals - Team 4 Holbrook, Steele, Sobkowski, Shatokhin
+
+Front end Updates - 
+	Moderator functionality fully implemented - inviting users, deleting users from groups
+							deleting groups
+
+Private Messages - Seperate from general groups, distinguish between private messagings and groups
+
+Passwords working on front end, block user login if password is incorrect
+
+Filtering Messages - Link to front end
+
+Parental Controls - Linkt to front end
+
+Meetings - Implement in backend. Add in functionality on server
+	Pull in meetings to front end, update based on users time zone
+
+User Profile - Settings tied to each specific user, time zone, status, language, icons
+		Add to back end, implement functionality on server, implement on front end
